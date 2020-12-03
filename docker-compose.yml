@@ -1,6 +1,6 @@
 version: '3'
-services:
 
+services:
   database:
     image: mysql:5.7
     environment:
@@ -10,10 +10,12 @@ services:
       - "MYSQL_ROOT_PASSWORD=schoolofnet"
     networks:
       - webnet
-
   #  The Application
   app:
     image: jacksonlima91/forum-app:v1
+    # build: .
+    volumes:
+      - .:/var/www/forum
     container_name: app
     ports:
         - 9000:9000
@@ -24,7 +26,8 @@ services:
   # The Web Server
   web:
     image: jacksonlima91/forum-web:v1
-    container_name: web  
+    # container_name: web  
+    build: . 
     ports:
       - 4000:80
     networks:
@@ -33,4 +36,3 @@ services:
       - app    
 networks:
   webnet:
-  
